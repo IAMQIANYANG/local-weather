@@ -4,16 +4,12 @@
 
 var result = document.querySelector("#showWeather");
 
-var getLocation = function() {
-
-  if (!navigator.geolocation) {
-    result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
-  }
+var getLocation = function () {
 
   function success(position) {
     var lat = position.coords.latitude;
     var lon = position.coords.longitude;
-    
+
     getWeather(lat, lon);
   }
 
@@ -24,7 +20,16 @@ var getLocation = function() {
 
   result.innerHTML = "Retrieving...";
 
-  navigator.geolocation.getCurrentPosition(success, error);
+  navigator.geolocation.getCurrentPosition(success, error); 
+}
+
+var displayLocalWeather = function() {
+
+  if (!navigator.geolocation) {
+    result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
+  }
+
+
 
 };
 
@@ -95,4 +100,4 @@ var ready = function(fn) {
   }
 };
 
-ready(getLocation());
+ready(displayLocalWeather());
