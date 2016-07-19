@@ -66,7 +66,7 @@ var displayLocalWeather = function() {
   var showLocation = document.querySelector("#showLocation");
 
   var locactionRequest = new XMLHttpRequest();
-  locactionRequest.open('GET', 'cors.io/?u=http://ipinfo.io/json', true);
+  locactionRequest.open('GET', 'https://crossorigin.me/http://ipinfo.io/json', true);
 
   locactionRequest.onload = function () {
     if (locactionRequest.status >= 200 && locactionRequest.status < 400) {
@@ -96,7 +96,7 @@ var displayLocalWeather = function() {
 var showWeather = function(lat, lon) {
   var showWeather = document.querySelector("#showWeather");
 
-  var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
+  var url = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
 
   var weatherRequest = new XMLHttpRequest();
   weatherRequest.open('GET', url, true);
