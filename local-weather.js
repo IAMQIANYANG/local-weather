@@ -2,6 +2,66 @@
    Created by Qian Yang on 2016-07-17.
  */
 
+// var result = document.querySelector("#showWeather");
+//
+// var displayLocalWeather = function() {
+//
+//   if (!navigator.geolocation) {
+//     result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
+//   }
+//
+//   function success(position) {
+//     var lat = position.coords.latitude;
+//     var lon = position.coords.longitude;
+//
+//     showWeather(lat, lon);
+//   }
+//
+//
+//   function error() {
+//     result.innerHTML = "<p>Unable to retrieve your location, please enable GPS.</p>";
+//   }
+//
+//   result.innerHTML = "Retrieving...";
+//
+//   navigator.geolocation.getCurrentPosition(success, error);
+//
+// };
+//
+//
+// var showWeather = function(lat, lon) {
+//   var showWeather = document.querySelector("#showWeather");
+//
+//   var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
+//
+//   var weatherRequest = new XMLHttpRequest();
+//   weatherRequest.open('GET', url, true);
+//
+//   weatherRequest.onload = function () {
+//     if (weatherRequest.status >= 200 && weatherRequest.status < 400) {
+//       var weatherJSON = JSON.parse(weatherRequest.responseText);
+//       var icon = '<i class="owf owf-' + weatherJSON["weather"][0]["id"] + ' owf-5x"></i>';
+//       var mainWeather = weatherJSON["weather"][0]["main"];
+//       var fahrenheit = weatherJSON["main"]["temp"] * (9/5) - 459.67;
+//       var celcius = (fahrenheit - 32)/1.8;
+//
+//       showWeather.innerHTML = "<p>" + icon
+//         + "</p><p>" + mainWeather + "</p>"
+//         + '<p id="fah">' + Math.round(fahrenheit) + ' °F' + '</p></p>'
+//         + '<p id="cel" class="notShow">' + Math.round(celcius) + ' °C' + '</p></p>';
+//       tempToggle();
+//     }
+//   };
+//
+//   weatherRequest.onerror = function () {
+//     showWeather.innerHTML = "<p>Sorry we were unable to reach the weather server..</p>"
+//   };
+//
+//   weatherRequest.send();
+//
+// };
+
+
 var displayLocalWeather = function() {
   var showLocation = document.querySelector("#showLocation");
 
@@ -31,6 +91,8 @@ var displayLocalWeather = function() {
 };
 
 
+
+
 var showWeather = function(lat, lon) {
   var showWeather = document.querySelector("#showWeather");
 
@@ -46,13 +108,13 @@ var showWeather = function(lat, lon) {
       var mainWeather = weatherJSON["weather"][0]["main"];
       var fahrenheit = weatherJSON["main"]["temp"] * (9/5) - 459.67;
       var celcius = (fahrenheit - 32)/1.8;
-      
+
       showWeather.innerHTML = "<p>" + icon
                               + "</p><p>" + mainWeather + "</p>"
                               + '<p id="fah">' + Math.round(fahrenheit) + ' °F' + '</p></p>'
                               + '<p id="cel" class="notShow">' + Math.round(celcius) + ' °C' + '</p></p>';
       tempToggle();
-    } 
+    }
   };
 
   weatherRequest.onerror = function () {
