@@ -66,7 +66,7 @@ var displayLocalWeather = function() {
   var showLocation = document.querySelector("#showLocation");
 
   var locactionRequest = new XMLHttpRequest();
-  locactionRequest.open('GET', 'http://ipinfo.io/json', true);
+  locactionRequest.open('GET', 'http://cors.io/?u=http://ipinfo.io/json', true);
 
   locactionRequest.onload = function () {
     if (locactionRequest.status >= 200 && locactionRequest.status < 400) {
