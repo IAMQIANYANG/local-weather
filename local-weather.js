@@ -2,33 +2,6 @@
    Created by Qian Yang on 2016-07-17.
  */
 
-// var result = document.querySelector("#showWeather");
-//
-// var displayLocalWeather = function() {
-//
-//   if (!navigator.geolocation) {
-//     result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
-//   }
-//
-//   function success(position) {
-//     var lat = position.coords.latitude;
-//     var lon = position.coords.longitude;
-//
-//     showAPI(lat, lon);
-//   }
-//
-//
-//   function error() {
-//     result.innerHTML = "<p>Unable to retrieve your location, please enable GPS.</p>";
-//   }
-//
-//   result.innerHTML = "Retrieving...";
-//
-//   navigator.geolocation.getCurrentPosition(success, error);
-//
-// };
-
-
 var displayLocalWeather = function() {
   var showLocation = document.querySelector("#showLocation");
 
