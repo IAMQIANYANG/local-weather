@@ -4,13 +4,17 @@
 
 var result = document.querySelector("#showWeather");
 
-var getLocation = function () {
+var displayLocalWeather = function() {
+
+  if (!navigator.geolocation) {
+    result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
+  }
 
   function success(position) {
     var lat = position.coords.latitude;
     var lon = position.coords.longitude;
 
-    getWeather(lat, lon);
+    showAPI(lat, lon);
   }
 
 
@@ -20,22 +24,13 @@ var getLocation = function () {
 
   result.innerHTML = "Retrieving...";
 
-  navigator.geolocation.getCurrentPosition(success, error); 
-}
-
-var displayLocalWeather = function() {
-
-  if (!navigator.geolocation) {
-    result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
-  }
-
-
+  navigator.geolocation.getCurrentPosition(success, error);
 
 };
 
 
-var getWeather = function(lat, lon) {
-  
+var showAPI = function(lat, lon) {
+
   var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
 
   var request = new XMLHttpRequest();
