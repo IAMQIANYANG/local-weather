@@ -2,88 +2,117 @@
    Created by Qian Yang on 2016-07-17.
  */
 
-var result = document.querySelector("#showWeather");
+// var result = document.querySelector("#showWeather");
+//
+// var displayLocalWeather = function() {
+//
+//   if (!navigator.geolocation) {
+//     result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
+//   }
+//
+//   function success(position) {
+//     var lat = position.coords.latitude;
+//     var lon = position.coords.longitude;
+//
+//     showAPI(lat, lon);
+//   }
+//
+//
+//   function error() {
+//     result.innerHTML = "<p>Unable to retrieve your location, please enable GPS.</p>";
+//   }
+//
+//   result.innerHTML = "Retrieving...";
+//
+//   navigator.geolocation.getCurrentPosition(success, error);
+//
+// };
+
 
 var displayLocalWeather = function() {
+  var showLocation = document.querySelector("#showLocation");
 
-  if (!navigator.geolocation) {
-    result.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
-  }
+  var locactionRequest = new XMLHttpRequest();
+  locactionRequest.open('GET', 'http://ipinfo.io/json', true);
 
-  function success(position) {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
+  locactionRequest.onload = function () {
+    if (locactionRequest.status >= 200 && locactionRequest.status < 400) {
+      var locationJSON = JSON.parse(locactionRequest.responseText);
+      var city = locationJSON["city"];
+      var country = locationJSON["country"];
+      var cor = locationJSON["loc"].split(',');
+      var lat = cor[0];
+      var lon = cor[1];
 
-    showAPI(lat, lon);
-  }
+      showWeather(lat, lon);
 
+      showLocation.innerHTML = "<p>" + city + ", " + country + "</p>"
 
-  function error() {
-    result.innerHTML = "<p>Unable to retrieve your location, please enable GPS.</p>";
-  }
+    }
+  };
+  locactionRequest.onerror = function () {
+    showLocation.innerHTML = "Sorry we were unable to get your location..."
+  };
 
-  result.innerHTML = "Retrieving...";
-
-  navigator.geolocation.getCurrentPosition(success, error);
-
+  locactionRequest.send();
 };
 
 
-var showAPI = function(lat, lon) {
+var showWeather = function(lat, lon) {
+  var showWeather = document.querySelector("#showWeather");
 
   var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
 
-  var request = new XMLHttpRequest();
-  request.open('GET', url, true);
+  var weatherRequest = new XMLHttpRequest();
+  weatherRequest.open('GET', url, true);
 
-  request.onload = function () {
-    if (request.status >= 200 && request.status < 400) {
-      var weatherJSON = JSON.parse(request.responseText);
-      var city = weatherJSON["name"];
-      var countryCode = weatherJSON["sys"]["country"];
-      var fahrenheit = weatherJSON["main"]["temp"] * (9/5) - 459.67;
-      var mainWeather = weatherJSON["weather"][0]["main"];
+  weatherRequest.onload = function () {
+    if (weatherRequest.status >= 200 && weatherRequest.status < 400) {
+      var weatherJSON = JSON.parse(weatherRequest.responseText);
       var icon = '<i class="owf owf-' + weatherJSON["weather"][0]["id"] + ' owf-5x"></i>';
-
-      result.innerHTML = "<p>" + city + ", " + countryCode + "</p><p>" + mainWeather + "</p><p>" + icon + "<p id='currentTemp'>" + Math.round(fahrenheit) + " °F" + "</p></p>";
-      tempConvert(fahrenheit);
-
-    } else {
-      result.innerHTML = "<p> Sorry it seems that there is something wrong with the server.</p>";
-
-    }
+      var mainWeather = weatherJSON["weather"][0]["main"];
+      var fahrenheit = weatherJSON["main"]["temp"] * (9/5) - 459.67;
+      var celcius = (fahrenheit - 32)/1.8;
+      
+      showWeather.innerHTML = "<p>" + icon
+                              + "</p><p>" + mainWeather + "</p>"
+                              + '<p id="fah">' + Math.round(fahrenheit) + ' °F' + '</p></p>'
+                              + '<p id="cel" class="notShow">' + Math.round(celcius) + ' °C' + '</p></p>';
+      tempToggle();
+    } 
   };
 
-  request.onerror = function () {
-    // There was a connection error of some sort
+  weatherRequest.onerror = function () {
+    showWeather.innerHTML = "<p>Sorry we were unable to reach the weather server..</p>"
   };
 
-  request.send();
+  weatherRequest.send();
 
 };
 
 
-var tempConvert = function(fahrenheit){
-  var toF = document.querySelector("#fahrenheit");
-  var toC = document.querySelector("#celcius");
-  var tempDisplay = document.querySelector("#currentTemp");
-  var temp = fahrenheit;
-  var isFah = true;
-  toC.addEventListener("click", function(){
-    if (isFah) {
-      temp = (temp - 32)/1.8;
-      tempDisplay.textContent = Math.round(temp) + " °C";
-      isFah = !isFah;
+var tempToggle = function(){
+  var toggleF = document.querySelector("#fahrenheit");
+  var toggleC = document.querySelector("#celcius");
+  var fah = document.querySelector("#fah");
+  var cel = document.querySelector("#cel");
+  var isF = true;
+  toggleF.addEventListener("click", function(){
+    if(!isF) {
+      cel.classList.add("notShow");
+      fah.classList.remove("notShow");
+      isF = !isF;
     }
   });
-  toF.addEventListener("click", function(){
-    if (!isFah) {
-      temp = temp * 1.8 + 32;
-      tempDisplay.textContent = Math.round(temp) + " °F";
-      isFah = !isFah;
+
+  toggleC.addEventListener("click", function(){
+    if(isF) {
+      fah.classList.add("notShow");
+      cel.classList.remove("notShow");
+      isF = !isF;
     }
   })
-
+  
 };
 
 
