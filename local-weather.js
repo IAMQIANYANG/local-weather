@@ -6,7 +6,7 @@ var showWeather = document.querySelector("#showWeather");
 
 var displayLocalWeather = function() {
 
-  showWeather.innerHTML = "<p>Retrieving...</p>";
+  showWeather.innerHTML = "<p>Retrieving data...</p>";
   
 
   if (!navigator.geolocation) {
@@ -22,7 +22,7 @@ var displayLocalWeather = function() {
 
 
   function error() {
-    showWeather.innerHTML = "<p>Unable to retrieve your location, please enable GPS.</p>";
+    showWeather.innerHTML = "<p>Unable to retrieve your location, please enable the location tracking in your browser.</p>";
   }
 
 
