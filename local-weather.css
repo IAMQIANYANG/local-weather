@@ -1,3 +1,25 @@
 .notShow {
     display:none;
 }
+
+.selected {
+    color: #F7CA18;
+}
+body {
+    background: #D2527F;
+    color: #ffffff ;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 150px;
+}
+
+.toggle {
+    display: inline-block;
+
+}
+
+#showLocation, #showWeather p{
+    font-size: 20px;
+}
