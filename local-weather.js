@@ -2,39 +2,47 @@
    Created by Qian Yang on 2016-07-17.
  */
 
+
 var showWeather = document.querySelector("#showWeather");
 
-var displayLocalWeather = function() {
 
-  showWeather.innerHTML = "<p>Retrieving data...</p>";
-  
+// start - Get current location of the user and handle error
+
+
+var getLocation = function() {
+
 
   if (!navigator.geolocation) {
     showWeather.innerHTML = "<p> Sorry Geolocation is not supported by your browser.</p>";
+  } else {
+
+
+    navigator.geolocation.getCurrentPosition(getLocationSuccess, getLocationError);
+
   }
-
-  function success(position) {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
-
-    displayWeather(lat, lon);
-  }
-
-
-  function error() {
-    showWeather.innerHTML = "<p>Unable to retrieve your location, please enable the location tracking in your browser.</p>";
-  }
-
-
-  navigator.geolocation.getCurrentPosition(success, error);
 
 };
 
 
+var getLocationSuccess = function(position) {
+  var lat = position.coords.latitude;
+  var lon = position.coords.longitude;
+  
+  callAPI(lat, lon);
+};
 
 
-var displayWeather = function(lat, lon) {
+var getLocationError = function () {
 
+  showWeather.innerHTML = "<p>Unable to retrieve your location, please enable the location tracking in your browser.</p>";
+
+};
+
+
+// end - Get current location of the user and handle error
+
+var callAPI = function(lat, lon) {
+  
   var url = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
 
   var weatherRequest = new XMLHttpRequest();
@@ -43,6 +51,18 @@ var displayWeather = function(lat, lon) {
   weatherRequest.onload = function () {
     if (weatherRequest.status >= 200 && weatherRequest.status < 400) {
       var weatherJSON = JSON.parse(weatherRequest.responseText);
+      displayWeather(weatherJSON)
+    }
+  };
+  weatherRequest.onerror = function () {
+    showWeather.innerHTML = "<p>Sorry we were unable to reach the weather server..</p>"
+  };
+
+  weatherRequest.send();
+};
+
+var displayWeather = function(weatherJSON) {
+ 
       var city = weatherJSON["name"];
       var countryCode = weatherJSON["sys"]["country"];
       var icon = '<i class="owf owf-' + weatherJSON["weather"][0]["id"] + ' owf-5x"></i>';
@@ -56,16 +76,7 @@ var displayWeather = function(lat, lon) {
                               + '<p id="fah">' + Math.round(fahrenheit) + ' °F' + '</p>'
                               + '<p id="cel" class="notShow">' + Math.round(celcius) + ' °C' + '</p>';
       tempToggle();
-    }
-  };
-
-  weatherRequest.onerror = function () {
-    showWeather.innerHTML = "<p>Sorry we were unable to reach the weather server..</p>"
-  };
-
-  weatherRequest.send();
-
-};
+    };
 
 
 var tempToggle = function(){
@@ -93,7 +104,7 @@ var tempToggle = function(){
       isF = !isF;
     }
   })
-  
+ 
 };
 
 
@@ -105,4 +116,4 @@ var ready = function(fn) {
   }
 };
 
-ready(displayLocalWeather());
+ready(getLocation());
