@@ -75,6 +75,7 @@ var displayWeather = function(weatherJSON) {
                               + "</p><p>" + mainWeather + "</p>"
                               + '<p id="fah">' + Math.round(fahrenheit) + ' °F' + '</p>'
                               + '<p id="cel" class="notShow">' + Math.round(celcius) + ' °C' + '</p>';
+      document.querySelector("#fahrenheit").classList.add("selected");
       tempToggle();
     };
 
