@@ -24,3 +24,15 @@ h1 {
 #showLocation, #showWeather p{
     font-size: 20px;
 }
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    text-align: center;
+    color:#000000;
+}
+
+.footer a{
+    color:#000000;
+}
