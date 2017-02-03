@@ -43,7 +43,7 @@ var getLocationError = function () {
 
 var callAPI = function(lat, lon) {
   
-  var url = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
+  var url = "https://CORS-Anywhere.HerokuApp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=9be25f73771dd468c4007c234b35cb20";
 
   var weatherRequest = new XMLHttpRequest();
   weatherRequest.open('GET', url, true);
